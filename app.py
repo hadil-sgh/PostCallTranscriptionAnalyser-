@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from TranscriptAnalyzer import analyze_transcript,GenerateCallReport
+from TranscriptAnalyzer import analyze_transcript,Generate_Call_Report
 
 app = Flask(__name__)
 
@@ -35,7 +35,7 @@ def Report():
     if not transcript:
         return jsonify({'error': 'Transcript not found'}), 404
 
-    result = GenerateCallReport(transcript)
+    result = Generate_Call_Report(transcript)
     return jsonify(result), 200
 
 def get_transcript_from_db(transcript_id):

@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from TranscriptAnalyzer import analyze_transcript
+from TranscriptAnalyzer import analyze_transcript,GenerateCallReport
 
 app = Flask(__name__)
 
@@ -20,6 +20,22 @@ def score():
         return jsonify({'error': 'Transcript not found'}), 404
 
     result = analyze_transcript(transcript)
+    return jsonify(result), 200
+
+
+@app.route('/GenerateReport', methods=['POST'])
+def Report():
+    data = request.get_json()
+    transcript_id = data.get('transcript_id')
+
+    if not transcript_id:
+        return jsonify({'error': 'Missing transcript_id'}), 400
+
+    transcript = get_transcript_from_db(transcript_id)
+    if not transcript:
+        return jsonify({'error': 'Transcript not found'}), 404
+
+    result = GenerateCallReport(transcript)
     return jsonify(result), 200
 
 def get_transcript_from_db(transcript_id):

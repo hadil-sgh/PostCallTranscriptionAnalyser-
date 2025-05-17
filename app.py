@@ -1,13 +1,13 @@
 from flask import Flask, request, jsonify
-from TranscriptAnalyzer import analyze_transcript,Generate_Call_Report
+from TranscriptAnalyzer import analyze_transcript, generate_call_report
 
 app = Flask(__name__)
 
-@app.route('/health', methods=['GET'])
+@app.route('/api/health', methods=['GET'])
 def health():
     return jsonify({'status': 'healthy'}), 200
 
-@app.route('/score', methods=['POST'])
+@app.route('/api/score', methods=['POST'])
 def score():
     data = request.get_json()
     transcript_id = data.get('transcript_id')
@@ -22,9 +22,8 @@ def score():
     result = analyze_transcript(transcript)
     return jsonify(result), 200
 
-
-@app.route('/GenerateReport', methods=['POST'])
-def Report():
+@app.route('/api/report', methods=['POST'])
+def generate_report():
     data = request.get_json()
     transcript_id = data.get('transcript_id')
 
@@ -35,11 +34,10 @@ def Report():
     if not transcript:
         return jsonify({'error': 'Transcript not found'}), 404
 
-    result = Generate_Call_Report(transcript)
+    result = generate_call_report(transcript)
     return jsonify(result), 200
 
 def get_transcript_from_db(transcript_id):
-    # Simulated mock database of transcripts (speaker tags removed)
     mock_db = {
         "1": (
             "Hello, how can I help you?\n"

@@ -98,6 +98,13 @@ curl -X POST http://localhost:5000/score -H "Content-Type: application/json" -d 
 - Ollama Python client
 - Ollama server with `llama3` model
 
+
+---
+
+## 📄 License
+
+The project is licensed under the MIT License. See the LICENSE file for more details.
+
 ---
 
 > Made with ❤️ for call center QA prototyping.

@@ -10,9 +10,9 @@ You are a seasoned Call Center Quality Assurance (QA) expert.
 Evaluate the following customer service conversation with two tasks:
 
 1. Rate the agent's performance based on:
-   - Empathy
-   - Problem-Solving
-   - Professionalism
+  - Empathy
+  - Problem-Solving
+  - Professionalism
 
 2. Identify the main complaint type from the following list:
 - Network Connectivity
@@ -26,10 +26,7 @@ Evaluate the following customer service conversation with two tasks:
 - Value-Added Services
 - Other
 
-
-
 Instructions:
-
 - Assign an overall score from 1 to 5.
 - Provide short, constructive feedback.
 - Select only one complaint type from the list.
@@ -42,14 +39,12 @@ Instructions:
 }
 """
 
-
-SYSTEM_PROMPT = """
+SYSTEM_PROMPT_REPORT = """
 You are a Conversation Reviewer. Your job is to review the conversation and generate detailed feedback for each unique speaker.
 
 Instructions:
 - Detect the overall topic of the discussion.
 - For each unique speaker, provide feedback focusing on communication effectiveness, clarity, tone, engagement, and any observed issues or strengths.
-- Structure the feedback clearly per speaker.
 - Respond ONLY in the following JSON format:
 
 {
@@ -61,24 +56,27 @@ Instructions:
 }
 """
 
-
 def extract_json(text):
     try:
         return json.loads(text)
     except json.JSONDecodeError:
-        match = re.search(r'\{.*\}', text, re.DOTALL)
+        # Try to sanitize bad characters
+        sanitized = text.replace('\r', '').replace('\t', '\\t').replace('\n', '\\n')
+
+        match = re.search(r'\{.*\}', sanitized, re.DOTALL)
         if match:
             try:
                 return json.loads(match.group())
             except json.JSONDecodeError as e:
                 return {
                     "score": 0,
-                    "feedback": f"Partial JSON parse error: {str(e)}",
+                    "feedback": f"Partial JSON parse error after sanitizing: {str(e)}",
                     "complaint_type": "Other"
                 }
+
         return {
             "score": 0,
-            "feedback": "No valid JSON found in LLM response.",
+            "feedback": "No valid JSON found even after sanitizing.",
             "complaint_type": "Other"
         }
 
@@ -87,19 +85,15 @@ def analyze_transcript(transcript):
         {"role": "system", "content": SYSTEM_PROMPT_QA},
         {"role": "user", "content": f"Transcript:\n{transcript}"}
     ]
-
     response = client.chat(model='llama3', messages=messages)
     content = response['message']['content']
-
     return extract_json(content)
 
-def Generate_Call_Report(transcript):
+def generate_call_report(transcript):
     messages = [
-        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "system", "content": SYSTEM_PROMPT_REPORT},
         {"role": "user", "content": f"Transcript:\n{transcript}"}
     ]
-
     response = client.chat(model='llama3', messages=messages)
     content = response['message']['content']
-
     return extract_json(content)

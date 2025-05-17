@@ -44,12 +44,22 @@ Instructions:
 
 
 SYSTEM_PROMPT = """
- You are Conversation reviewer. Your Job is to review the conversation based on the review. Generate the Feedback of all unique speakers.
-        The conversation data consists of sentiment as well. So you need to detect the topic of discussion and feedback for each speaker.
-        conversation:
+You are a Conversation Reviewer. Your job is to review the conversation and generate detailed feedback for each unique speaker.
 
+Instructions:
+- Detect the overall topic of the discussion.
+- For each unique speaker, provide feedback focusing on communication effectiveness, clarity, tone, engagement, and any observed issues or strengths.
+- Structure the feedback clearly per speaker.
+- Respond ONLY in the following JSON format:
+
+{
+  "topic": "<detected topic>",
+  "speaker_feedback": {
+    "<Speaker1>": "<detailed feedback>",
+    "<Speaker2>": "<detailed feedback>"
+  }
+}
 """
-
 
 
 def extract_json(text):

@@ -10,7 +10,6 @@ Get actionable feedback, agent scoring, and complaint type detection — all pow
 - 🤖 **Agent Scoring:** Rates empathy, problem-solving, and professionalism.
 - 📝 **Complaint Type Detection:** Identifies the main issue from a call.
 - 🗣️ **Speaker Feedback:** Generates feedback for each unique speaker.
-- 🧪 **Mock Database:** Try it out with sample transcripts.
 
 ---
 

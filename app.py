@@ -65,7 +65,7 @@ def get_transcript_from_db(transcript_id):
             "I’m not happy with the service.\n"
             "Huh. You sure? It’s a pretty good deal.\n"
             "I’ve had multiple issues and no resolution.\n"
-            "I guess I can cancel it. Hold on. *long pause*\n"
+            "I guess I can cancel itO. Hold on. *long pause*\n"
             "Are you still there?\n"
             "Yeah. Just canceling it... wait.\n"
             "Okay.\n"

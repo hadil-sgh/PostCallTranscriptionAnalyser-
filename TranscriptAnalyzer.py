@@ -2,7 +2,7 @@ import ollama
 import json
 import re
 
-client = ollama.Client()
+client = ollama.Client(host='http://host.docker.internal:11434')
 
 SYSTEM_PROMPT_QA = """
 You are a seasoned Call Center Quality Assurance (QA) expert.
